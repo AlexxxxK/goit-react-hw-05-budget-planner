@@ -5,6 +5,8 @@ import BudgetForm from "./BudgetForm";
 import ExpenseForm from "./ExpenseForm";
 import ExpensesTable from "./ExpensesTable";
 import Values from "./Values";
+import calculateBalance from "../helpers/calculateBalance";
+import calculateTotalExpenses from "../helpers/calculateTotalExpenses";
 
 const Container = styled.div`
   display: grid;
@@ -17,12 +19,6 @@ const Container = styled.div`
   margin-left: auto;
   margin-right: auto;
 `;
-
-const calculateTotalExpenses = expenses => {
-  return expenses.reduce((total, expense) => total + expense.amount, 0);
-};
-
-const calculateBalance = (budget, expenses) => budget - expenses;
 
 export default class App extends Component {
   state = {

@@ -15,7 +15,6 @@
     "styled-components": "4.4.0"
   },
   "devDependencies": {
-    "typescript": "3.6.4",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-import": "^2.18.2",
@@ -26,7 +25,9 @@
     "husky": "^3.0.9",
     "lint-staged": "^9.4.2",
     "prettier": "^1.18.2",
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.7.2",
+    "redux-devtools-extension": "^2.13.8",
+    "typescript": "3.6.4"
   },
   "scripts": {
     "start": "set PORT=3030 && react-scripts start",
