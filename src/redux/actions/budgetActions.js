@@ -1,11 +1,8 @@
 import { SAVE_BUDGET } from "./actionTypes";
 
-export const saveBudget = amount => ({
+const saveBudget = amount => ({
   type: SAVE_BUDGET,
-  payload: amount,
+  payload: Number(amount),
 });
 
-export const resetBudget = amount => ({
-  // type: SAVE_BUDGET,
-  payload: amount,
-});
+export default saveBudget;

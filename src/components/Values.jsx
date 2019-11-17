@@ -1,7 +1,11 @@
 import React from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Stat from "./Stat";
+import { getBudgetAmount, getExpenses } from "../redux/selectors/selectors";
+import calculateBalance from "../helpers/calculateBalance";
+import calculateTotalExpenses from "../helpers/calculateTotalExpenses";
 
 const Container = styled.section`
   display: inline-flex;
@@ -9,18 +13,29 @@ const Container = styled.section`
   align-items: center;
 `;
 
-const Values = ({ budget, expenses, balance }) => (
-  <Container>
-    <Stat label="Budget" value={budget} isPositive />
-    <Stat label="Expenses" value={expenses} />
-    <Stat label="Balance" value={balance} isPositive={balance >= 0} />
-  </Container>
-);
+const Values = ({ budget, expenses }) => {
+  const totalExpenses = calculateTotalExpenses(expenses);
+  const balance = calculateBalance(budget, totalExpenses);
+  return (
+    <Container>
+      <Stat label="Budget" value={budget} isPositive />
+      <Stat label="Expenses" value={totalExpenses} />
+      <Stat label="Balance" value={balance} isPositive={balance >= 0} />
+    </Container>
+  );
+};
 
 Values.propTypes = {
   budget: PropTypes.number.isRequired,
   expenses: PropTypes.number.isRequired,
-  balance: PropTypes.number.isRequired,
 };
 
-export default Values;
+const mapStateToProps = state => ({
+  budget: getBudgetAmount(state),
+  expenses: getExpenses(state),
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(Values);

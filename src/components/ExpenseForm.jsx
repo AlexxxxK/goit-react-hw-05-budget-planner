@@ -1,42 +1,54 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Form from "./shared/Form";
 import Label from "./shared/Label";
 import Input from "./shared/Input";
 import Button from "./shared/Button";
+import {
+  inputNameChange,
+  inputAmountChange,
+  clearInput,
+} from "../redux/actions/inputExpensesActions";
+import {
+  getInputExpensesName,
+  getInputExpensesAmount,
+} from "../redux/selectors/selectors";
+import { addExpense } from "../redux/actions/expensesActions";
 
 const labelStyles = `
   margin-bottom: 16px;  
 `;
 
-export default class ExpenseForm extends Component {
+class ExpenseForm extends Component {
   static propTypes = {
-    onSave: PropTypes.func.isRequired,
-  };
-
-  state = {
-    name: "",
-    amount: 0,
-  };
-
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
+    inputExpensesName: PropTypes.string.isRequired,
+    inputExpensesAmount: PropTypes.string.isRequired,
+    inputNameChange: PropTypes.func.isRequired,
+    inputAmountChange: PropTypes.func.isRequired,
+    clearInput: PropTypes.func.isRequired,
+    addExpense: PropTypes.func.isRequired,
   };
 
   handleSubmit = e => {
+    const {
+      clearInput,
+      inputExpensesName,
+      inputExpensesAmount,
+      addExpense,
+    } = this.props;
     e.preventDefault();
-
-    this.props.onSave({
-      ...this.state,
-    });
-
-    this.setState({ name: "", amount: 0 });
+    addExpense(inputExpensesName, inputExpensesAmount);
+    clearInput();
   };
 
   render() {
-    const { name, amount } = this.state;
+    const {
+      inputExpensesName,
+      inputExpensesAmount,
+      inputNameChange,
+      inputAmountChange,
+    } = this.props;
     return (
       <Form onSubmit={this.handleSubmit}>
         <Label customStyles={labelStyles}>
@@ -44,8 +56,8 @@ export default class ExpenseForm extends Component {
           <Input
             type="text"
             name="name"
-            value={name}
-            onChange={this.handleChange}
+            value={inputExpensesName}
+            onChange={inputNameChange}
           />
         </Label>
         <Label customStyles={labelStyles}>
@@ -53,8 +65,9 @@ export default class ExpenseForm extends Component {
           <Input
             type="number"
             name="amount"
-            value={amount}
-            onChange={this.handleChange}
+            value={inputExpensesAmount}
+            onChange={inputAmountChange}
+            placeholder="0"
           />
         </Label>
 
@@ -63,3 +76,20 @@ export default class ExpenseForm extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  inputExpensesName: getInputExpensesName(state),
+  inputExpensesAmount: getInputExpensesAmount(state),
+});
+
+const mapDispatchToProps = {
+  inputNameChange,
+  inputAmountChange,
+  clearInput,
+  addExpense,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ExpenseForm);

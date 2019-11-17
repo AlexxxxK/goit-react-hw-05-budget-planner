@@ -1,7 +1,10 @@
 import React from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Button from "./shared/Button";
+import { getExpenses } from "../redux/selectors/selectors";
+import { removeExpense } from "../redux/actions/expensesActions";
 
 const Table = styled.table`
   border-collapse: collapse;
@@ -19,7 +22,7 @@ const Table = styled.table`
   }
 `;
 
-const ExpensesTable = ({ items = [], onRemove }) => (
+const ExpensesTable = ({ expenses = [], removeExpense }) => (
   <Table>
     <thead>
       <tr>
@@ -29,12 +32,12 @@ const ExpensesTable = ({ items = [], onRemove }) => (
       </tr>
     </thead>
     <tbody>
-      {items.map(({ id, name, amount }) => (
+      {expenses.map(({ id, name, amount }) => (
         <tr key={id}>
           <td>{name}</td>
           <td>{amount}</td>
           <td>
-            <Button label="Delete" onClick={() => onRemove(id)} />
+            <Button label="Delete" onClick={() => removeExpense(id)} />
           </td>
         </tr>
       ))}
@@ -43,14 +46,25 @@ const ExpensesTable = ({ items = [], onRemove }) => (
 );
 
 ExpensesTable.propTypes = {
-  items: PropTypes.arrayOf(
+  expenses: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       amount: PropTypes.number.isRequired,
     }).isRequired,
   ).isRequired,
-  onRemove: PropTypes.func.isRequired,
+  removeExpense: PropTypes.func.isRequired,
 };
 
-export default ExpensesTable;
+const mapStateToProps = state => ({
+  expenses: getExpenses(state),
+});
+
+const mapDispatchToProps = {
+  removeExpense,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ExpensesTable);
