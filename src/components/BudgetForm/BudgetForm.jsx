@@ -1,13 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Form from "./shared/Form";
-import Label from "./shared/Label";
-import Input from "./shared/Input";
-import Button from "./shared/Button";
-import saveBudget from "../redux/actions/budgetActions";
-import { getInputBudgetValue } from "../redux/selectors/selectors";
-import { inputChange, clearInput } from "../redux/actions/inputBudgetActions";
+import { toast } from "react-toastify";
+import Form from "../shared/Form";
+import Label from "../shared/Label";
+import Input from "../shared/Input";
+import Button from "../shared/Button";
+import saveBudget from "../../redux/actions/budgetActions";
+import { getInputBudgetValue } from "../../redux/selectors/selectors";
+import {
+  inputChange,
+  clearInput,
+} from "../../redux/actions/inputBudgetActions";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure({
+  autoClose: 6000,
+  draggable: false,
+});
 
 const labelStyles = `
   margin-bottom: 16px;  
@@ -24,6 +34,14 @@ class BudgetForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { inputBudgetValue, saveBudget, clearInput } = this.props;
+
+    if (Number(inputBudgetValue) <= 0) {
+      toast.error("Please enter valid budget amount!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
+
     saveBudget(inputBudgetValue);
     clearInput();
   };
@@ -41,7 +59,6 @@ class BudgetForm extends Component {
             placeholder="0"
           />
         </Label>
-
         <Button label="Save" type="submit" />
       </Form>
     );

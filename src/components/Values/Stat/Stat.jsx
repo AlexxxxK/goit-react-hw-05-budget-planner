@@ -32,7 +32,7 @@ const Stat = ({ label, value, isPositive }) => (
 
 Stat.propTypes = {
   label: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
   isPositive: PropTypes.bool.isRequired,
 };
 

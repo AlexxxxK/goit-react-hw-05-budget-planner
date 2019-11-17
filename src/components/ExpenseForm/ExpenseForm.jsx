@@ -1,20 +1,28 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Form from "./shared/Form";
-import Label from "./shared/Label";
-import Input from "./shared/Input";
-import Button from "./shared/Button";
+import { toast } from "react-toastify";
+import Form from "../shared/Form";
+import Label from "../shared/Label";
+import Input from "../shared/Input";
+import Button from "../shared/Button";
 import {
   inputNameChange,
   inputAmountChange,
   clearInput,
-} from "../redux/actions/inputExpensesActions";
+} from "../../redux/actions/inputExpensesActions";
 import {
   getInputExpensesName,
   getInputExpensesAmount,
-} from "../redux/selectors/selectors";
-import { addExpense } from "../redux/actions/expensesActions";
+  getBudgetAmount,
+} from "../../redux/selectors/selectors";
+import { addExpense } from "../../redux/actions/expensesActions";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure({
+  autoClose: 6000,
+  draggable: false,
+});
 
 const labelStyles = `
   margin-bottom: 16px;  
@@ -28,16 +36,46 @@ class ExpenseForm extends Component {
     inputAmountChange: PropTypes.func.isRequired,
     clearInput: PropTypes.func.isRequired,
     addExpense: PropTypes.func.isRequired,
+    budget: PropTypes.number.isRequired,
   };
 
   handleSubmit = e => {
+    e.preventDefault();
     const {
       clearInput,
       inputExpensesName,
       inputExpensesAmount,
       addExpense,
+      budget,
     } = this.props;
-    e.preventDefault();
+
+    if (!budget) {
+      toast.error("Please enter your budget first!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
+    if (inputExpensesName.trim().length === 0) {
+      toast.error("Please enter transaction name!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
+    if (inputExpensesAmount <= 0) {
+      toast.error("Please enter valid transaction amount!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
+    if (inputExpensesAmount > budget) {
+      toast.warn(
+        "Be careful! Your spending habbits are going to run you into debts!",
+        {
+          position: toast.POSITION.TOP_CENTER,
+        },
+      );
+    }
+
     addExpense(inputExpensesName, inputExpensesAmount);
     clearInput();
   };
@@ -80,6 +118,7 @@ class ExpenseForm extends Component {
 const mapStateToProps = state => ({
   inputExpensesName: getInputExpensesName(state),
   inputExpensesAmount: getInputExpensesAmount(state),
+  budget: getBudgetAmount(state),
 });
 
 const mapDispatchToProps = {

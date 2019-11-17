@@ -2,9 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import Button from "./shared/Button";
-import { getExpenses } from "../redux/selectors/selectors";
-import { removeExpense } from "../redux/actions/expensesActions";
+import Button from "../shared/Button";
+import { getExpenses } from "../../redux/selectors/selectors";
+import { removeExpense } from "../../redux/actions/expensesActions";
 
 const Table = styled.table`
   border-collapse: collapse;
@@ -23,26 +23,30 @@ const Table = styled.table`
 `;
 
 const ExpensesTable = ({ expenses = [], removeExpense }) => (
-  <Table>
-    <thead>
-      <tr>
-        <th>Expense name</th>
-        <th>Expense amount</th>
-        <th />
-      </tr>
-    </thead>
-    <tbody>
-      {expenses.map(({ id, name, amount }) => (
-        <tr key={id}>
-          <td>{name}</td>
-          <td>{amount}</td>
-          <td>
-            <Button label="Delete" onClick={() => removeExpense(id)} />
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </Table>
+  <>
+    {expenses.length && (
+      <Table>
+        <thead>
+          <tr>
+            <th>Expense name</th>
+            <th>Expense amount</th>
+            <th />
+          </tr>
+        </thead>
+        <tbody>
+          {expenses.map(({ id, name, amount }) => (
+            <tr key={id}>
+              <td>{name}</td>
+              <td>{amount}</td>
+              <td>
+                <Button label="Delete" onClick={() => removeExpense(id)} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    )}
+  </>
 );
 
 ExpensesTable.propTypes = {

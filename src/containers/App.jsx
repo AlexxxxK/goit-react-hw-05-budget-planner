@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import BudgetForm from "./BudgetForm";
-import ExpenseForm from "./ExpenseForm";
-import ExpensesTable from "./ExpensesTable";
-import Values from "./Values";
+import BudgetForm from "../components/BudgetForm/BudgetForm";
+import ExpenseForm from "../components/ExpenseForm/ExpenseForm";
+import ExpensesTable from "../components/ExpensesTable/ExpensesTable";
+import Values from "../components/Values/Values";
 
 const Container = styled.div`
   display: grid;
@@ -20,7 +20,7 @@ const Container = styled.div`
 const App = () => (
   <Container>
     <BudgetForm />
-    <Values /* budget={budget} expenses={totalExpenses} balance={balance} */ />
+    <Values />
     <ExpenseForm />
     <ExpensesTable />
   </Container>
