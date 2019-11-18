@@ -96,6 +96,7 @@ class ExpenseForm extends Component {
             name="name"
             value={inputExpensesName}
             onChange={inputNameChange}
+            placeholder="Expense name"
           />
         </Label>
         <Label customStyles={labelStyles}>
@@ -105,7 +106,7 @@ class ExpenseForm extends Component {
             name="amount"
             value={inputExpensesAmount}
             onChange={inputAmountChange}
-            placeholder="0"
+            placeholder="Expense amount"
           />
         </Label>
 

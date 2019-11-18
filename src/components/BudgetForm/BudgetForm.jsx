@@ -56,7 +56,7 @@ class BudgetForm extends Component {
             type="number"
             value={inputBudgetValue}
             onChange={inputChange}
-            placeholder="0"
+            placeholder="Budget amount"
           />
         </Label>
         <Button label="Save" type="submit" />

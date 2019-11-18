@@ -24,7 +24,7 @@ const Table = styled.table`
 
 const ExpensesTable = ({ expenses = [], removeExpense }) => (
   <>
-    {expenses.length && (
+    {expenses.length > 0 && (
       <Table>
         <thead>
           <tr>
