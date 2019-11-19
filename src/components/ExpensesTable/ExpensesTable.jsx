@@ -1,26 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import styled from "styled-components";
 import PropTypes from "prop-types";
-import Button from "../shared/Button";
+import Button from "../shared/Button/Button";
+import Table from "./styledTable";
 import { getExpenses } from "../../redux/selectors/selectors";
 import { removeExpense } from "../../redux/actions/expensesActions";
-
-const Table = styled.table`
-  border-collapse: collapse;
-  text-align: center;
-  width: 100%;
-
-  tr {
-    border-bottom: 1px solid #212121;
-  }
-
-  td,
-  th {
-    padding-top: 8px;
-    padding-bottom: 8px;
-  }
-`;
 
 const ExpensesTable = ({ expenses = [], removeExpense }) => (
   <>

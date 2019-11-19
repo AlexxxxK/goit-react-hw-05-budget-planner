@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import Form from "../shared/Form";
-import Label from "../shared/Label";
-import Input from "../shared/Input";
-import Button from "../shared/Button";
+import Form from "../shared/Form/Form";
+import Label from "../shared/Label/Label";
+import Input from "../shared/Input/Input";
+import Button from "../shared/Button/Button";
 import {
   inputNameChange,
   inputAmountChange,
@@ -23,10 +23,6 @@ toast.configure({
   autoClose: 6000,
   draggable: false,
 });
-
-const labelStyles = `
-  margin-bottom: 16px;  
-`;
 
 class ExpenseForm extends Component {
   static propTypes = {
@@ -55,7 +51,7 @@ class ExpenseForm extends Component {
       });
       return;
     }
-    if (inputExpensesName.trim().length === 0) {
+    if (!inputExpensesName.trim().length) {
       toast.error("Please enter transaction name!", {
         position: toast.POSITION.TOP_CENTER,
       });
@@ -89,7 +85,7 @@ class ExpenseForm extends Component {
     } = this.props;
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Label customStyles={labelStyles}>
+        <Label>
           Enter expense name
           <Input
             type="text"
@@ -99,7 +95,7 @@ class ExpenseForm extends Component {
             placeholder="Expense name"
           />
         </Label>
-        <Label customStyles={labelStyles}>
+        <Label>
           Enter expense amount
           <Input
             type="number"

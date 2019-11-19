@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import Form from "../shared/Form";
-import Label from "../shared/Label";
-import Input from "../shared/Input";
-import Button from "../shared/Button";
+import Form from "../shared/Form/Form";
+import Label from "../shared/Label/Label";
+import Input from "../shared/Input/Input";
+import Button from "../shared/Button/Button";
 import saveBudget from "../../redux/actions/budgetActions";
 import { getInputBudgetValue } from "../../redux/selectors/selectors";
 import {
@@ -18,10 +18,6 @@ toast.configure({
   autoClose: 6000,
   draggable: false,
 });
-
-const labelStyles = `
-  margin-bottom: 16px;  
-`;
 
 class BudgetForm extends Component {
   static propTypes = {
@@ -50,7 +46,7 @@ class BudgetForm extends Component {
     const { inputBudgetValue, inputChange } = this.props;
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Label customStyles={labelStyles}>
+        <Label>
           Enter your total budget
           <Input
             type="number"

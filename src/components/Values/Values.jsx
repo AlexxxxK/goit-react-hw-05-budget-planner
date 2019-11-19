@@ -1,17 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import styled from "styled-components";
 import PropTypes from "prop-types";
 import Stat from "./Stat/Stat";
+import Container from "./styledSection";
 import { getBudgetAmount, getExpenses } from "../../redux/selectors/selectors";
 import calculateBalance from "../../helpers/calculateBalance";
 import calculateTotalExpenses from "../../helpers/calculateTotalExpenses";
-
-const Container = styled.section`
-  display: inline-flex;
-  justify-content: space-between;
-  align-items: center;
-`;
 
 const Values = ({ budget, expenses }) => {
   const totalExpenses = calculateTotalExpenses(expenses);
